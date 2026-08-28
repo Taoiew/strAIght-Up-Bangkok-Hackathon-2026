@@ -1,5 +1,17 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --color-brand: #f39abb;
+  --color-brand-light: #ffb2cd;
+  --color-brand-dark: #e384a6;
+  --color-chat-base: #0a0a0a;
+  --color-chat-surface: #111111;
+  --color-chat-panel: #1a1a1a;
+  --color-chat-border: #222222;
+}
+
 :root {
   --background: #f7f7f2;
   --foreground: #181a1b;
@@ -37,3 +49,19 @@ button {
   outline: 3px solid rgba(22, 111, 104, 0.35);
   outline-offset: 2px;
 }
+
+.chatfinity-shell {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+.chatfinity-shell ::-webkit-scrollbar { width: 4px; }
+.chatfinity-shell ::-webkit-scrollbar-track { background: transparent; }
+.chatfinity-shell ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+.dark .chatfinity-shell ::-webkit-scrollbar-thumb { background: #333; }
+
+@keyframes chatfinity-fade-in {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chatfinity-fade-in { animation: chatfinity-fade-in 200ms ease-in-out; }
