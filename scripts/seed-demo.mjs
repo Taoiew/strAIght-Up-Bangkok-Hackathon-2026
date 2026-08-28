@@ -25,32 +25,42 @@ async function main() {
     },
   });
 
-  const conversation = await prisma.conversation.upsert({
-    where: { id: "demo-conversation" },
-    update: {
-      userId: user.id,
-      title: "Demo conversation",
-    },
-    create: {
+  await prisma.conversation.deleteMany({
+    where: {
       id: "demo-conversation",
       userId: user.id,
-      title: "Demo conversation",
-      messages: {
-        create: [
-          {
-            role: "user",
-            content: "Explain what this starter app can do.",
-          },
-          {
-            role: "assistant",
-            content:
-              "This starter includes authentication, persistent conversations, a generic AI agent, tool calling, streaming UI, and deployment-ready configuration.",
-          },
-        ],
-      },
     },
   });
 
+  let conversation = await prisma.conversation.findFirst({
+    where: {
+      userId: user.id,
+      title: "Demo conversation",
+    },
+    orderBy: { createdAt: "asc" },
+  });
+
+  if (!conversation) {
+    conversation = await prisma.conversation.create({
+      data: {
+        userId: user.id,
+        title: "Demo conversation",
+        messages: {
+          create: [
+            {
+              role: "user",
+              content: "Explain what this starter app can do.",
+            },
+            {
+              role: "assistant",
+              content:
+                "This starter includes authentication, persistent conversations, a generic AI agent, tool calling, streaming UI, and deployment-ready configuration.",
+            },
+          ],
+        },
+      },
+    });
+  }
   console.log("Demo user ready:");
   console.log(`Email: ${demoUser.email}`);
   console.log(`Password: ${demoUser.password}`);

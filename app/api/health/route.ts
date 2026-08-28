@@ -20,7 +20,10 @@ export async function GET() {
     services: {
       app: true,
       database,
+      aiProvider: envStatus.aiProvider,
       openaiConfigured: envStatus.openaiConfigured,
+      geminiConfigured: envStatus.geminiConfigured,
+      externalProcessorConfigured: envStatus.externalProcessorConfigured,
       authConfigured: envStatus.authConfigured,
     },
   });

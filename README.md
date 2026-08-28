@@ -10,8 +10,10 @@ A production-ready but lightweight Next.js starter for rapidly adapting an OpenA
 - Prisma ORM with PostgreSQL/Supabase-ready schema
 - Persistent conversations, messages, and agent runs
 - Server-side OpenAI integration
+- Gemini API alternative through `AI_PROVIDER=gemini`
 - Generic agent runner with configurable prompts
 - Tool registry with safe demo tools
+- PDF and image upload ingestion through an external processor API
 - Streaming chat response UX
 - Health endpoint at `/api/health`
 - Request IDs, structured logs, centralized errors
@@ -53,7 +55,9 @@ Email: demo@example.com
 Password: password123
 ```
 
-Chat with OpenAI requires `OPENAI_API_KEY` in both `.env.local` and `.env`. Login, dashboard, database, and conversation history work without it.
+Chat requires either `OPENAI_API_KEY` or `GEMINI_API_KEY`, depending on `AI_PROVIDER`. Login, dashboard, database, and conversation history work without an AI key.
+
+File uploads use `EXTERNAL_PROCESSOR_API_URL` when configured. Local development falls back to mock processing while `MOCK_FILE_PROCESSING=true`, so upload persistence can be tested without an external service.
 
 ## Mode A: Local Docker Database
 
@@ -127,6 +131,11 @@ OPENAI_API_KEY=
 OPENAI_MODEL=gpt-5-mini
 OPENAI_TEMPERATURE=0.2
 OPENAI_MAX_OUTPUT_TOKENS=1200
+GEMINI_API_KEY=
+GEMINI_MODEL=gemini-3-flash-preview
+EXTERNAL_PROCESSOR_API_URL=
+EXTERNAL_PROCESSOR_API_KEY=
+MOCK_FILE_PROCESSING=true
 DATABASE_URL=
 AUTH_SECRET=
 NEXT_PUBLIC_APP_URL=http://localhost:3000
@@ -134,6 +143,26 @@ MAX_AGENT_STEPS=8
 ```
 
 Never commit `.env.local` or secrets.
+
+## AI Provider
+
+Use OpenAI:
+
+```env
+AI_PROVIDER=openai
+OPENAI_API_KEY=your_openai_key
+OPENAI_MODEL=gpt-5-mini
+```
+
+Use Gemini:
+
+```env
+AI_PROVIDER=gemini
+GEMINI_API_KEY=your_gemini_key
+GEMINI_MODEL=gemini-3-flash-preview
+```
+
+The same generic agent, prompt files, and local tool registry are used for both providers. Gemini calls the Google `generateContent` endpoint with function declarations, then the server executes approved local tools and sends tool results back to the model.
 
 ## Database Setup
 
@@ -152,6 +181,51 @@ npm run db:deploy
 ```
 
 Do not reset or destroy production databases during deployment.
+
+## External File Processor
+
+`POST /api/uploads` accepts `multipart/form-data` with:
+
+```text
+file: PDF or image
+conversationId: optional existing conversation ID
+```
+
+Supported file types:
+
+```text
+application/pdf
+image/png
+image/jpeg
+image/webp
+image/gif
+```
+
+Maximum file size: `10 MB`.
+
+When `EXTERNAL_PROCESSOR_API_URL` is configured, the server forwards the file to that API as multipart form data:
+
+```text
+file
+requestId
+```
+
+If `EXTERNAL_PROCESSOR_API_KEY` is set, it is sent as:
+
+```text
+Authorization: Bearer <key>
+```
+
+The processor response should return JSON with one of these fields:
+
+```text
+extractedText
+text
+content
+summary
+```
+
+The processed result is saved in the `uploaded_assets` table and also added to the conversation as a `tool` message.
 
 ## Development
 
@@ -195,6 +269,8 @@ Local Docker is intentionally only for development. Production should use Supaba
 - [ ] Database connection works
 - [ ] New conversation works
 - [ ] User message saves
+- [ ] PDF upload saves processed result
+- [ ] Image upload saves processed result
 - [ ] OpenAI responds
 - [ ] Streaming works
 - [ ] Assistant message saves

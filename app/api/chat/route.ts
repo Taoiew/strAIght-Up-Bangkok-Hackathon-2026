@@ -23,6 +23,21 @@ function streamText(text: string) {
   });
 }
 
+function buildAgentMessage(message: string, attachments?: Array<{ fileName: string; extractedText?: string | null }>) {
+  if (!attachments?.length) return message;
+
+  const attachmentContext = attachments
+    .map((attachment, index) =>
+      [
+        `Attachment ${index + 1}: ${attachment.fileName}`,
+        attachment.extractedText || "No extracted text was returned for this attachment.",
+      ].join("\n"),
+    )
+    .join("\n\n");
+
+  return `${message}\n\nAttached file context:\n${attachmentContext}`;
+}
+
 export async function POST(request: Request) {
   const requestId = crypto.randomUUID();
   const started = performance.now();
@@ -67,7 +82,7 @@ export async function POST(request: Request) {
 
     const messages = [
       ...conversation.messages.map((message) => ({ role: message.role, content: message.content })),
-      { role: "user" as const, content: parsed.data.message },
+      { role: "user" as const, content: buildAgentMessage(parsed.data.message, parsed.data.attachments) },
     ];
 
     const result = await runAgent({

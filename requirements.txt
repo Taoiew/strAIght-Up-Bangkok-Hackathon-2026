@@ -6,7 +6,7 @@
 # - npm 10 or newer
 # - Docker Desktop, only for local Docker database mode
 # - PostgreSQL database, Supabase PostgreSQL recommended
-# - OpenAI API key
+# - OpenAI API key or Gemini API key
 # - Auth.js secret
 #
 # Install application dependencies with:
@@ -25,6 +25,12 @@
 # OPENAI_MODEL
 # OPENAI_TEMPERATURE
 # OPENAI_MAX_OUTPUT_TOKENS
+# AI_PROVIDER
+# GEMINI_API_KEY
+# GEMINI_MODEL
+# EXTERNAL_PROCESSOR_API_URL
+# EXTERNAL_PROCESSOR_API_KEY
+# MOCK_FILE_PROCESSING
 # DATABASE_URL
 # AUTH_SECRET
 # NEXT_PUBLIC_APP_URL
