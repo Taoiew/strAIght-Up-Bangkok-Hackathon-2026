@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
-import { AppNav } from "@/components/layout/app-nav";
-import { WorkspaceClient } from "@/components/chat/workspace-client";
+import { ChatFinityApp } from "@/components/chatfinity/chatfinity-app";
 import { getOwnedConversation, getUserConversations } from "@/lib/db/queries";
 
 export default async function WorkspacePage({
@@ -19,26 +18,25 @@ export default async function WorkspacePage({
     : null;
 
   return (
-    <>
-      <AppNav />
-      <WorkspaceClient
-        initialConversations={conversations.map((conversation) => ({
-          id: conversation.id,
-          title: conversation.title,
-          updatedAt: conversation.updatedAt.toISOString(),
-          messages: conversation.messages.map((message) => ({
-            id: message.id,
-            role: message.role,
-            content: message.content,
-          })),
-        }))}
-        initialActiveConversationId={activeConversation?.id}
-        initialMessages={activeConversation?.messages.map((message) => ({
+    <ChatFinityApp
+      authenticated
+      userName={session.user.name || session.user.email || "there"}
+      initialConversations={conversations.map((conversation) => ({
+        id: conversation.id,
+        title: conversation.title,
+        updatedAt: conversation.updatedAt.toISOString(),
+        messages: conversation.messages.map((message) => ({
           id: message.id,
           role: message.role,
           content: message.content,
-        }))}
-      />
-    </>
+        })),
+      }))}
+      initialActiveConversationId={activeConversation?.id}
+      initialMessages={activeConversation?.messages.map((message) => ({
+        id: message.id,
+        role: message.role,
+        content: message.content,
+      }))}
+    />
   );
 }

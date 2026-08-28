@@ -68,11 +68,11 @@ export function AuthForm({ mode }: AuthFormProps) {
   return (
     <form action={handleSubmit} className="grid gap-4">
       {mode === "login" && (
-        <div className="rounded-md border border-[var(--line)] bg-[var(--panel-soft)] p-3 text-sm">
+        <div className="rounded-xl border border-brand/20 bg-brand/10 p-3 text-sm">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div>
               <p className="font-semibold">Demo account</p>
-              <p className="text-[var(--muted)]">demo@example.com / password123</p>
+              <p className="text-gray-500 dark:text-gray-400">demo@example.com / password123</p>
             </div>
             <Button
               type="button"
@@ -91,7 +91,7 @@ export function AuthForm({ mode }: AuthFormProps) {
         <label className="grid gap-2 text-sm font-medium">
           Name
           <input
-            className="focus-ring h-11 rounded-md border border-[var(--line)] bg-white px-3"
+            className="focus-ring h-11 rounded-xl border border-gray-200 bg-gray-50 px-3 outline-none transition focus:border-brand dark:border-gray-700 dark:bg-[#121212] dark:text-white"
             name="name"
             autoComplete="name"
           />
@@ -100,7 +100,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       <label className="grid gap-2 text-sm font-medium">
         Email
         <input
-          className="focus-ring h-11 rounded-md border border-[var(--line)] bg-white px-3"
+          className="focus-ring h-11 rounded-xl border border-gray-200 bg-gray-50 px-3 outline-none transition focus:border-brand dark:border-gray-700 dark:bg-[#121212] dark:text-white"
           name="email"
           type="email"
           autoComplete="email"
@@ -112,7 +112,7 @@ export function AuthForm({ mode }: AuthFormProps) {
       <label className="grid gap-2 text-sm font-medium">
         Password
         <input
-          className="focus-ring h-11 rounded-md border border-[var(--line)] bg-white px-3"
+          className="focus-ring h-11 rounded-xl border border-gray-200 bg-gray-50 px-3 outline-none transition focus:border-brand dark:border-gray-700 dark:bg-[#121212] dark:text-white"
           name="password"
           type="password"
           autoComplete={mode === "signup" ? "new-password" : "current-password"}
