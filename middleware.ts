@@ -3,7 +3,9 @@ import { auth } from "@/auth";
 
 export default auth((request) => {
   const isProtectedRoute =
-    request.nextUrl.pathname.startsWith("/dashboard") || request.nextUrl.pathname.startsWith("/workspace");
+    request.nextUrl.pathname.startsWith("/dashboard") ||
+    request.nextUrl.pathname.startsWith("/workspace") ||
+    request.nextUrl.pathname.startsWith("/account");
 
   if (isProtectedRoute && !request.auth) {
     const loginUrl = new URL("/login", request.nextUrl.origin);
@@ -15,5 +17,5 @@ export default auth((request) => {
 });
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/workspace/:path*"],
+  matcher: ["/dashboard/:path*", "/workspace/:path*", "/account/:path*"],
 };
