@@ -1,0 +1,31 @@
+# This project is a Next.js/TypeScript application, so JavaScript dependencies
+# are managed in package.json and package-lock.json instead of Python pip.
+#
+# Runtime requirements:
+# - Node.js 20 or newer
+# - npm 10 or newer
+# - Docker Desktop, only for local Docker database mode
+# - PostgreSQL database, Supabase PostgreSQL recommended
+# - OpenAI API key
+# - Auth.js secret
+#
+# Install application dependencies with:
+# npm install
+#
+# Fastest local start:
+# npm run setup:local
+# npm run dev:docker
+#
+# Demo login:
+# Email: demo@example.com
+# Password: password123
+#
+# Required environment variables are documented in .env.example:
+# OPENAI_API_KEY
+# OPENAI_MODEL
+# OPENAI_TEMPERATURE
+# OPENAI_MAX_OUTPUT_TOKENS
+# DATABASE_URL
+# AUTH_SECRET
+# NEXT_PUBLIC_APP_URL
+# MAX_AGENT_STEPS

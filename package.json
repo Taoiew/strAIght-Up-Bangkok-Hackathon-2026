@@ -1,0 +1,61 @@
+{
+  "name": "straight-up-bangkok-hackathon-2026",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "setup:local": "node scripts/setup-local.mjs",
+    "dev:docker": "npm run db:local:up && npm run db:migrate && npm run db:seed && npm run dev",
+    "dev": "next dev",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:studio": "prisma studio",
+    "db:seed": "node scripts/seed-demo.mjs",
+    "db:local:up": "docker compose up -d postgres",
+    "db:local:down": "docker compose down",
+    "db:local:logs": "docker compose logs -f postgres"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Taoiew/strAIght-Up-Bangkok-Hackathon-2026.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Taoiew/strAIght-Up-Bangkok-Hackathon-2026/issues"
+  },
+  "homepage": "https://github.com/Taoiew/strAIght-Up-Bangkok-Hackathon-2026#readme",
+  "dependencies": {
+    "@auth/prisma-adapter": "^2.11.3",
+    "@prisma/client": "^6.19.3",
+    "bcryptjs": "^3.0.3",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.35.0",
+    "next": "^16.3.3",
+    "next-auth": "^5.0.0-beta.32",
+    "openai": "^7.8.0",
+    "prisma": "^6.19.3",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^26.4.0",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.3",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.11"
+  }
+}
